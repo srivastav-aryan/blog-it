@@ -43,10 +43,9 @@ app.use("/api/users", router);
 app.use("/api/posts", postrouter);
 
 // ROUTES FOR SENDING HTML PAGES
-app.get("/", async (req, res) => {
+app.get("/", async (req, res, next) => {
    try {
       const user = req.session.user || null;
-      // console.log(user);
 
       const blogs = await Posts.find({})
          .sort({ createdAt: -1 })
@@ -58,17 +57,18 @@ app.get("/", async (req, res) => {
          preview: blog.body.slice(0, 150) + "...",
       }));
 
-      // console.log(blogsWithPreview);
-
       res.render("home", { user, blogsWithPreview });
    } catch (error) {
       console.log(error);
    }
 });
 
-app.get("/register", (req, res) => {
-   const user = null;
-   res.render("register", { user });
+app.get("/register", (req, res, next) => {
+   res.render("register", { user: null });
+});
+
+app.get("/login", (req, res, next) => {
+   res.render("login", { user: null });
 });
 
 // global error middleware

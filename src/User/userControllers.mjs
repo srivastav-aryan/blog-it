@@ -31,8 +31,7 @@ const registerUser = async (req, res, next) => {
 
       req.session.user = newUser;
 
-      // return res.status(201).json({ message: "You are registered" });
-      return res.redirect("/")
+      return res.redirect("/");
    } catch (error) {
       console.log(error);
       return next(
@@ -61,28 +60,22 @@ const logInUser = async (req, res, next) => {
       }
 
       req.session.user = isUser;
-      res.status(200).send("helllll lflfl");
+      return res.redirect("/");
    } catch (error) {
       console.log(`Server error Occuered: ${error}`);
       return next(createHttpError(500, error));
    }
 };
 
-const logoutUser = async (req ,res , next) => {
+const logoutUser = async (req, res, next) => {
    req.session.destroy((err) => {
       if (err) {
-        console.error('Error destroying session:', err);
-        return next(createHttpError(500, 'Error logging out'));
+         console.error("Error destroying session:", err);
+         return next(createHttpError(500, "Error logging out"));
       }
-})
-   res.clearCookie('connect.sid');
-   res.redirect("/")
-}
-
-//COMPLETE THE LOGIC FOR BELOW CONTROLLER
-const deleteUserAcc = (req, res, next) => {
-   res.send("hello");
+   });
+   res.clearCookie("connect.sid");
+   res.redirect("/");
 };
 
-export { registerUser, logInUser, logoutUser
-   ,deleteUserAcc };
+export { registerUser, logInUser, logoutUser };

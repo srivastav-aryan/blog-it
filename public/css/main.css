@@ -181,7 +181,7 @@ nav {
 }
 
 /* Registration Form */
-.register-title {
+.auth-title {
    text-align: center;
    font-size: 2rem;
    margin-bottom: 1.5rem;
@@ -229,6 +229,7 @@ nav {
    color: #636e72;
    margin-top: 0.3rem;
 }
+
 
 /* Submit button style (reuses .btn and .auth-btn) */
 .auth-btn {
