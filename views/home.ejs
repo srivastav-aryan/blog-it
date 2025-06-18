@@ -1,0 +1,44 @@
+<div class="main-home container">
+   <% if (user == null) { %>
+   <h1 class="home-title">Welcome to Pro Blog app</h1>
+   <p class="home-subtitle">Share your thoughts and learnings with the world</p>
+   <div class="button-group">
+      <a href="/register"><button class="btn primary">Sign Up</button></a>
+      <a href="/login"><button class="btn secondary">Log In</button></a>
+   </div>
+   <% } else { %>
+   <h1 class="home-title">Welcome Back <%= user.username %></h1>
+   <p class="home-subtitle">Share your thoughts and learnings with the world</p>
+
+   <% if (blogsWithPreview && blogsWithPreview.length > 0) { %> <%
+   blogsWithPreview.forEach(function(blog) { %>
+   <div class="blog-post-card">
+      <h2 class="blog-title"><%= blog.title %></h2>
+      <div class="blog-image-container">
+         <img src="<%= blog.postImg %>" alt="post image" class="post-img" />
+      </div>
+      <p class="blog-preview"><%= blog.preview %></p>
+      <div class="blog-meta">
+         <span class="blog-author">By: <%= blog.author.username %></span>
+         <a href="/api/particular"
+            ><button class="btn read-more">Read More →</button></a
+         >
+      </div>
+
+      <% if (blog.author.username === user.username) { %>
+      <div class="blog-actions">
+         <a href="/posts/#"><button class="btn edit">Edit</button></a>
+         <form
+            action="/posts/#"
+            method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this post?');"
+         >
+            <button type="submit" class="btn delete">Delete</button>
+         </form>
+      </div>
+      <% } %>
+   </div>
+   <% }); %> <% } else { %>
+   <p class="no-posts">No blog posts yet.</p>
+   <% } %> <% } %>
+</div>
