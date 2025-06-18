@@ -1,0 +1,30 @@
+<div class="read-post-container">
+   <div class="post-container">
+      <h1 class="post-title"><%= post.title %></h1>
+
+      <% if (post.postImg) { %>
+      <div class="post-img">
+         <img src="<%= post.postImg %>" alt="<%= post.title %>" />
+      </div>
+      <% } %>
+
+      <div class="post-body"><%= post.body %></div>
+
+      <div class="post-footer">
+         <span
+            >Posted by <%= post.author.username %> on <%= new
+            Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric',
+            month: 'long', day: 'numeric' }) %></span
+         >
+         <% if (user && user._id === post.author._id.toString()) { %>
+         <div class="post-actions">
+            <a href="/edit-post/<%= post._id %>" class="btn btn-edit"
+               >Edit Post</a
+            >
+         </div>
+         <% } %>
+      </div>
+
+      <a href="/" class="btn btn-back">← Back to All Posts</a>
+   </div>
+</div>

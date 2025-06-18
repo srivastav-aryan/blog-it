@@ -92,6 +92,17 @@ app.get("/edit-post/:postId", AuthenticateUser, async (req, res, next) => {
    res.render("editPost", { user, post });
 });
 
+app.get("/post/:postId", async (req, res, next) => {
+   const postId = req.params.postId;
+   const user = req.session.user || null;
+
+   const post = await Posts.findOne({ _id: postId }).lean();
+
+   if (!post) return next(createHttpError(404, "No such post available"));
+
+   res.render("readPost", { user, post });
+});
+
 // global error middleware
 app.use(handleError);
 

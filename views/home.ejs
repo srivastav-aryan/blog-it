@@ -20,14 +20,16 @@
       <p class="blog-preview"><%= blog.preview %></p>
       <div class="blog-meta">
          <span class="blog-author">By: <%= blog.author.username %></span>
-         <a href="/api/particular"
+         <a href="/post/<%= blog._id %>"
             ><button class="btn read-more">Read More →</button></a
          >
       </div>
 
       <% if (blog.author.username === user.username) { %>
       <div class="blog-actions">
-         <a href="/edit-post/<%= blog._id %>"><button class="btn edit">Edit</button></a>
+         <a href="/edit-post/<%= blog._id %>"
+            ><button class="btn edit">Edit</button></a
+         >
          <button class="btn delete" data-postId="<%= blog._id %>">
             Delete
          </button>
