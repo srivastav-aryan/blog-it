@@ -27,7 +27,7 @@
 
       <% if (blog.author.username === user.username) { %>
       <div class="blog-actions">
-         <a href="/posts/#"><button class="btn edit">Edit</button></a>
+         <a href="/edit-post/<%= blog._id %>"><button class="btn edit">Edit</button></a>
          <button class="btn delete" data-postId="<%= blog._id %>">
             Delete
          </button>

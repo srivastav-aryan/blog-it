@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="edit-post-wrapper">
+       <h1 class="page-title">Edit Blog Post</h1>
+ 
+       <div class="edit-form">
+          <div class="form-group">
+             <label for="title" class="form-label">Title</label>
+             <input
+                type="text"
+                id="title"
+                value="<%= post.title %>"
+                required
+                class="form-input"
+             />
+          </div>
+ 
+          <div class="form-group">
+             <label for="body" class="form-label">Content</label>
+             <textarea
+                id="body"
+                rows="10"
+                cols="80"
+                required
+                class="form-textarea"
+             ><%= post.body %></textarea>
+          </div>
+ 
+          <div class="form-group">
+             <label class="form-label">Current Image</label>
+             <div class="current-image">
+                <img
+                   src="<%= post.postImg %>"
+                   alt="Current post image"
+                   class="current-image__img"
+                />
+             </div>
+             <label for="postImg" class="file-upload">
+                <span>Change Image (optional)</span>
+                <input
+                   type="file"
+                   id="postImg"
+                   accept="image/*"
+                />
+             </label>
+          </div>
+ 
+          <div class="form-actions">
+             <a href="/" class="btn btn-secondary">Cancel</a>
+             <button type="button" id="updateBtn" class="btn primary">Update Post</button>
+          </div>
+       </div>
+    </div>
+ </div>
+ 
+ <script>
+ document.addEventListener('DOMContentLoaded', function() {
+    const updateBtn = document.getElementById('updateBtn');
+    const titleInput = document.getElementById('title');
+    const bodyInput = document.getElementById('body');
+    const imageInput = document.getElementById('postImg');
+    const postId = '<%= post._id %>';
+ 
+    updateBtn.addEventListener('click', async function() {
+       const title = titleInput.value.trim();
+       const body = bodyInput.value.trim();
+       const file = imageInput.files[0];
+ 
+       if (!title || !body) {
+          alert('Please fill in all required fields');
+          return;
+       }
+ 
+       const formData = new FormData();
+       formData.append('title', title);
+       formData.append('body', body);
+       if (file) {
+          formData.append('postImg', file);
+       }
+ 
+       try {
+          updateBtn.disabled = true;
+          updateBtn.textContent = 'Updating...';
+ 
+          const response = await fetch(`/api/posts/${postId}`, {
+             method: 'PATCH',
+             body: formData,
+             credentials: 'same-origin'
+          });
+ 
+          if (response.redirected) {
+             window.location.href = response.url;
+             return;
+          }
+ 
+          const result = await response.json();
+          if (!response.ok) {
+             throw new Error(result.message || 'Failed to update post');
+          }
+ 
+          // If we get here, the update was successful but no redirect
+          window.location.href = '/';
+ 
+       } catch (error) {
+          console.error('Error:', error);
+          alert(error.message || 'Failed to update post. Please try again.');
+       } finally {
+          updateBtn.disabled = false;
+          updateBtn.textContent = 'Update Post';
+       }
+    });
+ });
+ </script>

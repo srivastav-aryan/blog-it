@@ -80,39 +80,41 @@ const updatePost = async (req, res, next) => {
       if (post.author.toString() !== req.session.user._id.toString())
          return next(createHttpError(403, "Unauthorized access!!"));
 
-      const image = req.file;
-      const imageFormat = image.mimetype;
+      if (req.file) {
+         const image = req.file;
+         const imageFormat = image.mimetype;
 
-      if (!allowedType.blogimg.includes(imageFormat))
-         return next(createHttpError(401, "File format not supported"));
+         if (!allowedType.blogimg.includes(imageFormat))
+            return next(createHttpError(401, "File format not supported"));
 
-      const result = await cloudinary.uploader.upload(image.path, {
-         filename_override: image.filename,
-         folder: "post-pic-folder",
-         format: imageFormat.split("/").at(-1),
-      });
+         const result = await cloudinary.uploader.upload(image.path, {
+            filename_override: image.filename,
+            folder: "post-pic-folder",
+            format: imageFormat.split("/").at(-1),
+         });
 
-      const newPost = await Posts.findOneAndUpdate(
-         { _id: postId },
-         {
-            title,
-            body,
-            postImg: result.secure_url,
-         },
-         { new: true }
-      );
+         const newPost = await Posts.findOneAndUpdate(
+            { _id: postId },
+            {
+               title,
+               body,
+               postImg: result.secure_url,
+            },
+            { new: true }
+         );
 
-      fs.promises.unlink(path.resolve(image.path));
+         fs.promises.unlink(path.resolve(image.path));
 
-      const postUrl = post.postImg;
-      const postPublicId =
-         postUrl.split("/").at(-2) +
-         "/" +
-         postUrl.split("/").at(-1).split(".").at(-2);
+         const postUrl = post.postImg;
+         const postPublicId =
+            postUrl.split("/").at(-2) +
+            "/" +
+            postUrl.split("/").at(-1).split(".").at(-2);
 
-      await cloudinary.uploader.destroy(postPublicId);
+         await cloudinary.uploader.destroy(postPublicId);
 
-      res.json(newPost);
+         return res.status(200).redirect("/");
+      }
    } catch (error) {
       console.log(`error occured while updating:- ${error}`);
       return next(createHttpError(500, `some server Error occured:- ${error}`));

@@ -13,8 +13,11 @@ import Posts from "./Posts/postModel.mjs";
 import AuthenticateUser from "./middlewares/AuthUser.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import methodOverride from "method-override";
+import createHttpError from "http-errors";
 
 const app = express();
+app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -77,6 +80,18 @@ app.get("/create-post", AuthenticateUser, (req, res, next) => {
 
    res.render("newPost", { user });
 });
+
+app.get("/edit-post/:postId", AuthenticateUser, async (req, res, next) => {
+   const user = req.session.user || null;
+   const postId = req.params.postId;
+
+   const post = await Posts.findOne({ _id: postId }).lean();
+
+   if (!post) return next(createHttpError(404, "No such post available"));
+
+   res.render("editPost", { user, post });
+});
+
 // global error middleware
 app.use(handleError);
 
