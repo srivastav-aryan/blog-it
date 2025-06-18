@@ -10,6 +10,7 @@ import MongoStore from "connect-mongo";
 import appConfig from "./config/appConfig.mjs";
 import "./User/userModel.mjs";
 import Posts from "./Posts/postModel.mjs";
+import AuthenticateUser from "./middlewares/AuthUser.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -71,6 +72,11 @@ app.get("/login", (req, res, next) => {
    res.render("login", { user: null });
 });
 
+app.get("/create-post", AuthenticateUser, (req, res, next) => {
+   const user = req.session.user || null;
+
+   res.render("newPost", { user });
+});
 // global error middleware
 app.use(handleError);
 

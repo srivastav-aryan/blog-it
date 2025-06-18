@@ -19,9 +19,9 @@ const upload = multer({
    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
 });
 
-postrouter.post("/", AuthUser, upload.single("blogimg"), createPost);
+postrouter.post("/", AuthUser, upload.single("postImg"), createPost);
 
-postrouter.patch("/:postId", AuthUser, upload.single("blogimg"), updatePost);
+postrouter.patch("/:postId", AuthUser, upload.single("postImg"), updatePost);
 
 postrouter.delete("/:postId", AuthUser, deletePost);
 

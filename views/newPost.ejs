@@ -1,0 +1,30 @@
+<div class="crate-post-wrapper">
+   <h1>Create a new Blog</h1>
+   <form action="/api/posts" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+         <label for="title">Title</label>
+         <input type="text" name="title" id="title" required />
+      </div>
+      <div class="form-group">
+         <label for="body">Body</label>
+         <textarea
+            name="body"
+            id="body"
+            cols="80"
+            rows="10"
+            required
+         ></textarea>
+      </div>
+      <div class="form-group">
+         <label for="postImg">Blog Image</label>
+         <input
+            type="file"
+            name="postImg"
+            id="postImg"
+            accept="image/*"
+            required
+         />
+      </div>
+      <button type="submit" class="btn primary">Create Post</button>
+   </form>
+</div>

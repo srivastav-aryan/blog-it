@@ -14,10 +14,9 @@ const __dirname = path.dirname(__filename);
 
 const createPost = async (req, res, next) => {
    try {
-      const { author, title, body } = req.body;
-      // console.log(req.session.user);
+      const { title, body } = req.body;
 
-      if (!author || !title || !body) {
+      if (!title || !body) {
          return next(createHttpError(400, "Please fill every filled"));
       }
 
@@ -56,7 +55,7 @@ const createPost = async (req, res, next) => {
          postImg: result.secure_url,
       });
 
-      res.json({ mess: "hello" });
+      return res.status(201).redirect("/");
    } catch (error) {
       console.log(error);
       return next(createHttpError(500, error));
@@ -120,7 +119,7 @@ const updatePost = async (req, res, next) => {
    }
 };
 
-// adding nested try catch to mimic response of transaction not roll back
+// added nested try catch to mimic response of transaction not roll back
 const deletePost = async (req, res, next) => {
    try {
       const postId = req.params.postId;
@@ -159,7 +158,7 @@ const deletePost = async (req, res, next) => {
          await Posts.deleteOne({ _id: postId });
 
          if (cloudinaryResult) {
-            res.status(204).send("Deletion successfull from cloudinary and DB");
+            return res.status(204).redirect("/");
          } else {
             return next(
                createHttpError(
@@ -199,4 +198,4 @@ const readAllPosts = async (req, res, next) => {
 };
 
 //Add single book read
-export { createPost, updatePost, deletePost , readAllPosts};
+export { createPost, updatePost, deletePost, readAllPosts };

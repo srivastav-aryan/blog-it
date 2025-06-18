@@ -230,7 +230,6 @@ nav {
    margin-top: 0.3rem;
 }
 
-
 /* Submit button style (reuses .btn and .auth-btn) */
 .auth-btn {
    width: 100%;
@@ -246,4 +245,14 @@ nav {
 
 .auth-btn:hover {
    background-color: #74b9ff;
+}
+
+/* ------------------------------ */
+.crate-post-wrapper {
+   /* background-color: #0984e3; */
+   padding: 2rem;
+   border-radius: 8px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+   width: 50%;
+   margin: 2rem auto;
 }

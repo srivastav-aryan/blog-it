@@ -4,7 +4,11 @@
       <nav>
          <% if (user) { %>
          <span class="welcome-msg">Welcome, <%= user.username %></span>
-         <button class="btn"><a href="" style="text-decoration: none; color: black;">New post</a></button>
+         <button class="btn primary">
+            <a href="/create-post" style="text-decoration: none; color: white"
+               >New post</a
+            >
+         </button>
          <button class="btn" onclick="confirmLogout()">Logout</button>
          <% } else { %>
          <a class="nav-link" href="/register">Register</a>

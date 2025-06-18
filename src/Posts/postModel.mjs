@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from"../User/userModel.mjs"
+import User from "../User/userModel.mjs";
 
 const postSchema = new mongoose.Schema(
    {
@@ -9,8 +9,7 @@ const postSchema = new mongoose.Schema(
       },
       author: {
          type: mongoose.Schema.Types.ObjectId,
-         ref: "bloguser",         
-         required: true,
+         ref: "bloguser",
       },
 
       postImg: {
